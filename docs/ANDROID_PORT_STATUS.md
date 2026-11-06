@@ -90,3 +90,16 @@ A second pass inspected the VPC platform scripts, launcher, and input interface:
 
 The first practical build milestone should be a standalone Android NDK native-shell/smoke-test target, independent of Steam desktop launcher code. In parallel, trace how the existing Linux game creates its window and GL context and how the GLM/TOGL layer is initialized. Do not add an Android target to the main VPC graph until its compiler flags, libraries, ABI output paths, and dependency builds have been separated from desktop POSIX.
 
+
+
+## Phase 1 deliverable: isolated Android native shell
+
+An initial Android application target has now been added under `android/`, separate from the desktop VPC projects:
+
+- Gradle application module targeting `arm64-v8a` only.
+- Android NDK `NativeActivity` entry point using `android_native_app_glue`.
+- EGL / OpenGL ES 2 surface creation, clear-and-present loop, resize and surface teardown handling.
+- Basic touch-event receipt and lifecycle logging.
+- GitHub Actions workflow `.github/workflows/android-arm64-shell.yml` to build a debug APK and verify that the ARM64 native library is packaged.
+
+This shell is intentionally a platform smoke test. It does **not** link Source engine libraries, initialize the Source renderer, or include game content. Its acceptance gate is a successful CI APK build followed by installation and lifecycle testing on a physical ARM64 Android device.

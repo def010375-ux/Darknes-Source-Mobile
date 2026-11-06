@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22.1)
 project(darknes_android_shell C)
 
-set(NATIVE_APP_GLUE_DIR "${ANDROID_NDK}/sources/android/native_app_glue")
+set(NATIVE_APP_GLUE_DIR "${CMAKE_ANDROID_NDK}/sources/android/native_app_glue")
 
 add_library(darknes_android_shell SHARED
     main.c
