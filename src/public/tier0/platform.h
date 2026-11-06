@@ -9,7 +9,7 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-#if defined(__x86_64__) || defined(_WIN64)
+#if defined(__x86_64__) || defined(__aarch64__) || defined(_WIN64)
 #define PLATFORM_64BITS 1
 #endif
 
@@ -177,6 +177,10 @@
 # endif
 
 //#elif PLATFORM_LINUX
+#elif defined(__ANDROID__)
+
+# define PLATFORM_DIR "/androidarm64"
+
 #elif LINUX
 
 # if PLATFORM_64BITS
