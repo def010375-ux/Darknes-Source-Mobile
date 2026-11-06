@@ -69,3 +69,7 @@ https://partner.steamgames.com/doc/sdk/uploading/distributing_source_engine
 The SDK is licensed to users on a non-commercial basis under the [SOURCE 1 SDK LICENSE](LICENSE), which is contained in the [LICENSE](LICENSE) file in the root of the repository.
 
 For more information, see [Distributing your Mod](#markdown-header-distributing-your-mod).
+
+## Android port (Darknes)
+
+The repository is being audited for a native Android ARM64 port. The upstream SDK currently documents Windows and Linux desktop builds; an Android APK is **not** available yet. See [the Android port status and roadmap](docs/ANDROID_PORT_STATUS.md) for verified findings, blockers, and staged implementation goals.
