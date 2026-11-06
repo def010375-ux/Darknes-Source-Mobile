@@ -74,3 +74,19 @@ The following findings were checked against the current `master` branch:
 - Engine window/surface creation and renderer initialization.
 - Input backend and event dispatch.
 - Third-party libraries that must be rebuilt for Android ARM64.
+
+## Deeper source audit (2026-11-06)
+
+A second pass inspected the VPC platform scripts, launcher, and input interface:
+
+- `src/vpc_scripts/platform_dirs.vpc` defines Windows, Linux32/Linux64, and OSX32 output directories; it has no Android or ARM64 Android target.
+- `src/vpc_scripts/source_posix_base.vpc` adds the host system SDL2 include directory (`/usr/include/SDL2`) and desktop POSIX definitions. It is not a portable NDK configuration.
+- `src/vpc_scripts/source_posix_ninja.vpc` hard-codes desktop x86 tuning flags for Linux32/Linux64 (for example, `-march=nocona` / `-march=core2`) and desktop linker assumptions. Those flags and host libraries must not leak into an Android ARM64 build.
+- `src/launcher_main/main.cpp` is a desktop launcher: it loads Steam's desktop shared library, expects the Source SDK 2013 Multiplayer Steam installation, and uses SDL message boxes on POSIX. It cannot serve unchanged as an Android app entry point.
+- `src/public/inputsystem/iinputsystem.h` exposes a window attachment interface and desktop-oriented input polling/event APIs. The interface may be reusable, but Android touch events and lifecycle must be bridged into it deliberately.
+- The tree contains `src/materialsystem/shaderapidx9` and the GLM/TOGL headers under `src/public/togl/linuxwin`. This is not evidence of a ready Android GLES renderer: the actual graphics device/context creation, shader translation path, and required GL extensions still need tracing and device validation.
+
+### Updated priority
+
+The first practical build milestone should be a standalone Android NDK native-shell/smoke-test target, independent of Steam desktop launcher code. In parallel, trace how the existing Linux game creates its window and GL context and how the GLM/TOGL layer is initialized. Do not add an Android target to the main VPC graph until its compiler flags, libraries, ABI output paths, and dependency builds have been separated from desktop POSIX.
+
