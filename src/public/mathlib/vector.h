@@ -22,11 +22,9 @@
 // For rand(). We really need a library!
 #include <stdlib.h>
 
-#ifndef _X360
-// For MMX intrinsics
-#if !defined(PLATFORM_ARM)
+#if !defined(_X360) && !defined(__arm__) && !defined(__aarch64__) && !defined(_M_ARM) && !defined(_M_ARM64)
+// MMX/SSE intrinsics are available only on x86 targets.
 #include <xmmintrin.h>
-#endif
 #endif
 
 #include "tier0/dbg.h"
@@ -216,7 +214,9 @@ private:
 FORCEINLINE void NetworkVarConstruct( Vector &v ) { v.Zero(); }
 
 
-#define USE_M64S ( ( !defined( _X360 ) ) )
+#if !defined(_X360) && !defined(__arm__) && !defined(__aarch64__) && !defined(_M_ARM) && !defined(_M_ARM64)
+#define USE_M64S 1
+#endif
 
 
 

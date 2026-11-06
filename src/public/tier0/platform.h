@@ -589,7 +589,7 @@ typedef unsigned int *LPDWORD;
 	#define stackalloc( _size )		alloca( ALIGN_VALUE( _size, 16 ) )
 #if defined(OSX)
 	#define mallocsize( _p )	( malloc_size( _p ) )
-#elif defined(_LINUX)
+#elif defined(_LINUX) || defined(__ANDROID__)
 	#define mallocsize( _p )	( malloc_usable_size( _p ) )
 #else
 #error
@@ -1259,6 +1259,10 @@ inline uint64 Plat_Rdtsc()
 	uint32 lo, hi;
 	__asm__ __volatile__ ( "rdtsc" : "=a" (lo), "=d" (hi));
 	return ( ( ( uint64 )hi ) << 32 ) | lo;
+#elif defined( __aarch64__ ) || defined( __arm__ )
+	struct timespec ts;
+	clock_gettime( CLOCK_MONOTONIC, &ts );
+	return ( ( uint64 )ts.tv_sec * 1000000000ULL ) + ( uint64 )ts.tv_nsec;
 #else
 	#error
 #endif

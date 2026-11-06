@@ -7,7 +7,7 @@ add_library(source_mathlib_android STATIC
     "${SOURCE_SDK_ROOT}/mathlib/vector.cpp"
 )
 target_include_directories(source_mathlib_android PUBLIC "${SOURCE_SDK_ROOT}/public")
-target_compile_definitions(source_mathlib_android PUBLIC POSIX GNUC COMPILER_GCC)
+target_compile_definitions(source_mathlib_android PUBLIC POSIX GNUC COMPILER_GCC LINUX _LINUX)
 target_compile_options(source_mathlib_android PRIVATE -Wall -Wextra -Wno-unknown-pragmas)
 target_compile_features(source_mathlib_android PUBLIC cxx_std_14)
 
