@@ -5,6 +5,7 @@ on:
     branches: [ master ]
     paths:
       - "android/**"
+      - "src/**"
       - ".github/workflows/android-arm64-shell.yml"
   workflow_dispatch:
 
