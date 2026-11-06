@@ -24,7 +24,9 @@
 
 #ifndef _X360
 // For MMX intrinsics
+#if !defined(PLATFORM_ARM)
 #include <xmmintrin.h>
+#endif
 #endif
 
 #include "tier0/dbg.h"
