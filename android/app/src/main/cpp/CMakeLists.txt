@@ -36,4 +36,5 @@ target_link_libraries(darknes_android_shell
     ${log-lib}
     ${egl-lib}
     ${gles-lib}
+    m
 )
